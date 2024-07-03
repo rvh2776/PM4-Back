@@ -11,13 +11,13 @@ En esta actividad se utilizán las siguientes tecnologías: NestJs, Typescript, 
 #### Clona el repositorio.
 
 ```
-git clone git@github.com:pi-rym/PM4-rvh2776.git
+git clone git@github.com:rvh2776/PM4-Back.git
 ```
 
 #### Entra a la carpeta del proyecto.
 
 ```
-cd PM4-rvh2776
+cd PM4-Back.git
 ```
 
 #### Instala las dependencias.
