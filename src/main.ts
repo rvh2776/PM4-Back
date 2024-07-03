@@ -31,7 +31,7 @@ async function bootstrap() {
 
   //* Integrar Swagger, para documentar la API.
   const swaggerConfig = new DocumentBuilder()
-    .setTitle(`API E-Commerce`)
+    .setTitle(`E-Commerce: PM4-rvh2776`)
     .setDescription(
       `<hr <font color=#2E86C1>
       <h4><font color=#2E86C1>Bienvenido a la documentación oficial de la <b>API: E-Commerce: <a target='blank' href="https://github.com/rvh2776/PM4-Back">PM4-rvh2776</a></b>.</h4>
