@@ -165,6 +165,10 @@ export class ProductsController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
   @ApiForbiddenResponse({ description: 'Forbidden.' })
   @ApiOperation({ summary: 'Update product' })
+  @ApiBody({
+    type: UpdateProductDto,
+    description: 'Json strucutre for user object',
+  })
   @ApiResponse({
     status: 200,
     description: 'The product has been successfully updated.',
