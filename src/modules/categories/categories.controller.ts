@@ -13,7 +13,7 @@ import { CreateCategoryDto } from './dto/create-category.dto';
 import { AuthGuard } from '../auth/guards/AuthGuard';
 import {
   ApiBearerAuth,
-  ApiExcludeEndpoint,
+  // ApiExcludeEndpoint,
   ApiForbiddenResponse,
   ApiOperation,
   ApiResponse,
@@ -21,13 +21,28 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { createCategoryApi } from './dto/createCategoryApi.dto';
+// import { Roles } from 'src/decorators/roles.decorator';
+import { Roles } from '../../decorators/roles.decorator';
+import { Role } from '../auth/roles.enum';
+import { RolesGuard } from '../users/guards/roles.guard';
 
 @ApiTags('Categories')
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
-  @ApiExcludeEndpoint()
+  // @ApiExcludeEndpoint()
+  @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  @ApiOperation({ summary: 'Seed of categories creation' })
+  @ApiResponse({
+    status: 201,
+    description: 'The categories has been successfully created.',
+    type: createCategoryApi,
+  })
+  @ApiBearerAuth()
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
   @Post('seeder')
   seedCategories() {
     const categories = productsData.map((product) => ({

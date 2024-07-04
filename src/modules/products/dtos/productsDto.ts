@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString, IsUUID, MinLength } from 'class-validator';
-import { Category } from 'src/modules/categories/entities/category.entity';
-import { OrdersDetail } from 'src/modules/orders-details/entities/orders-detail.entity';
+import { Category } from '../../../modules/categories/entities/category.entity';
+import { OrdersDetail } from '../../../modules/orders-details/entities/orders-detail.entity';
 
 export class ProductsDto {
   // @ApiProperty({

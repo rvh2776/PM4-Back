@@ -5,7 +5,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-// import { Request } from 'express';
 import { Observable } from 'rxjs';
 
 //? Implementacion directa del AuthGaurd.
@@ -38,9 +37,6 @@ export class AuthGuard implements CanActivate {
       payload.iat = iatDate.toLocaleString();
       payload.exp = expDate.toLocaleString();
 
-      // payload.iat = new Date(payload.iat * 1000);
-      // payload.exp = new Date(payload.exp * 1000);
-      // payload.user = ['admin'];
       request.user = payload;
       // console.log({ payload });
 

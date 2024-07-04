@@ -53,7 +53,7 @@ export class AuthService {
     const user = await this.usersService.findByEmail(email);
 
     if (!user) {
-      throw new BadRequestException('El usuario no existe');
+      throw new BadRequestException('Email o password incorrectos');
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);

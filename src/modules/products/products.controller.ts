@@ -33,7 +33,7 @@ import {
   ApiBearerAuth,
   ApiBody,
   ApiConsumes,
-  ApiExcludeEndpoint,
+  // ApiExcludeEndpoint,
   ApiForbiddenResponse,
   ApiOperation,
   ApiParam,
@@ -53,7 +53,18 @@ export class ProductsController {
     private readonly cloudinaryService: CloudinaryService,
   ) {}
 
-  @ApiExcludeEndpoint()
+  // @ApiExcludeEndpoint()
+  @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  @ApiOperation({ summary: 'Seed of products creation' })
+  @ApiResponse({
+    status: 201,
+    description: 'The products has been successfully created.',
+    type: ProductsApiDto,
+  })
+  @ApiBearerAuth()
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
   @Post('seeder')
   seedProducts() {
     return this.productsService.addProducts(productsData);
@@ -89,17 +100,12 @@ export class ProductsController {
     return this.productsService.findAll(pageNum, limitNum);
   }
 
-  @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
-  @ApiForbiddenResponse({ description: 'Forbidden.' })
   @ApiOperation({ summary: 'Get product by ID' })
   @ApiResponse({
     status: 200,
     description: 'The product has been successfully retrieved.',
     type: ProductsApiDto,
   })
-  @ApiBearerAuth()
-  @Roles(Role.Admin)
-  @UseGuards(AuthGuard, RolesGuard)
   @Get(':id')
   getProductById(@Param('id', ParseUUIDPipe) id: string) {
     return this.productsService.getProductById(id);
@@ -165,7 +171,8 @@ export class ProductsController {
     type: ProductsApiDto,
   })
   @ApiBearerAuth()
-  @UseGuards(AuthGuard)
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
   @Put(':id')
   @UsePipes(new ValidationPipe({ transform: true }))
   updateProduct(

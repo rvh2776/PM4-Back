@@ -28,7 +28,7 @@ export class UsersService {
     const users = await this.usersRepository.find();
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const usersOut = users.map(({ password, isAdmin, ...users }) => {
+    const usersOut = users.map(({ password, ...users }) => {
       return users;
     });
     return usersOut;
@@ -45,7 +45,7 @@ export class UsersService {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...userOut } = user;
+    const { password, isAdmin, ...userOut } = user;
 
     return userOut;
   }

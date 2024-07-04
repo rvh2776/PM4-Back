@@ -11,13 +11,13 @@ En esta actividad se utilizán las siguientes tecnologías: NestJs, Typescript, 
 #### Clona el repositorio.
 
 ```
-git clone git@github.com:rvh2776/PM4-Back.git
+git clone git@github.com:pi-rym/PM4-rvh2776.git
 ```
 
 #### Entra a la carpeta del proyecto.
 
 ```
-cd PM4-Back.git
+cd PM4-rvh2776
 ```
 
 #### Instala las dependencias.
@@ -265,6 +265,17 @@ npm install --save @nestjs/jwt
 npm install express-openid-connect
 ```
 
+#### Correr test unitarios y de integracion.
+
+```
+npm run test
+
+npm run test:e2e
+
+npm run test:e2e users.e2e
+
+npm run test:e2e products.e2e
+```
 
 <br>
 <font color='lime'><p align="right">Rafael V.H.</p></font>
