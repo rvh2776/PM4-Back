@@ -166,7 +166,7 @@ export class ProductsController {
   @ApiForbiddenResponse({ description: 'Forbidden.' })
   @ApiOperation({ summary: 'Update product' })
   @ApiBody({
-    type: UpdateProductDto,
+    type: ProductsDto,
     description: 'Json strucutre for user object',
   })
   @ApiResponse({
