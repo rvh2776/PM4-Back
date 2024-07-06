@@ -23,10 +23,7 @@ export class orderApiDto {
 
   @ApiProperty({
     description: 'ID del producto, debe ser un UUID válido',
-    example: [
-      { id: '87cecae9-fb7c-4046-a878-1aabcdb83f29' },
-      { id: '87cecae9-fb7c-4046-a878-1aabcdb83f29' },
-    ],
+    example: { id: '87cecae9-fb7c-4046-a878-1aabcdb83f29', price: '239.30' },
   })
-  products: { id: string }[];
+  orderDetail: { id: string }[];
 }

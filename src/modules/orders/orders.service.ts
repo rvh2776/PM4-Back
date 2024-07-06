@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Order } from './entities/order.entity';
 import { Repository } from 'typeorm';
@@ -73,31 +73,54 @@ export class OrdersService {
 
   async findAll() {
     const orders = await this.orderRepository.find({
-      relations: ['orderDetail', 'orderDetail.products'],
+      relations: ['orderDetail', 'user'],
     });
 
-    return orders;
+    const salida = orders.map((order) => {
+      return {
+        id: order.id,
+        date: order.date,
+        userId: order.user.id,
+        orderDetail: order.orderDetail,
+      };
+    });
+
+    return salida;
   }
 
-  async getOrder(id: string): Promise<Order | string> {
+  async getOrder(id: string) {
     const order = await this.orderRepository.findOne({
       where: { id },
-      // relations: ['orderDetail', 'orderDetail.products', 'user'],
-      relations: ['orderDetail', 'orderDetail.products'],
+      relations: ['orderDetail', 'user'],
     });
 
     if (!order) {
       return 'La orden no existe';
     }
 
-    return order;
+    return {
+      id: order.id,
+      date: order.date,
+      userId: order.user.id,
+      orderDetail: order.orderDetail,
+    };
   }
 
-  // update(id: number, updateOrderDto: UpdateOrderDto) {
-  //   return `This action updates a #${id} order`;
-  // }
+  async remove(id: string): Promise<Order | string> {
+    const order = await this.orderRepository.findOne({
+      where: { id },
+      relations: ['orderDetail'],
+    });
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} order`;
-  // }
+    if (!order) {
+      throw new NotFoundException(`La orden con id: ${id} no existe`);
+    }
+
+    const orderDetailId = order.orderDetail.id;
+
+    await this.ordersDetailsRepository.delete({ id: orderDetailId });
+    await this.orderRepository.delete(id);
+
+    return `The order with id: ${id} has been successfully deleted.`;
+  }
 }

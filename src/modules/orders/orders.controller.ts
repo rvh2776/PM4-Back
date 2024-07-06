@@ -8,6 +8,7 @@ import {
   ValidationPipe,
   UseGuards,
   ParseUUIDPipe,
+  Delete,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -74,17 +75,15 @@ export class OrdersController {
     return this.ordersService.getOrder(id);
   }
 
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard)
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-  //   return this.ordersService.update(+id, updateOrderDto);
-  // }
-
-  // @ApiBearerAuth()
-  // @UseGuards(AuthGuard)
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.ordersService.remove(+id);
-  // }
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
+  @ApiResponse({
+    status: 200,
+    description:
+      'The order with id: 4d2de65f-0f9f-48c2-ae9b-20537e175e12 has been successfully deleted.',
+  })
+  @Delete(':id')
+  remove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.ordersService.remove(id);
+  }
 }
