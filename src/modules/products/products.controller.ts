@@ -37,6 +37,7 @@ import {
   ApiForbiddenResponse,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiResponse,
   ApiTags,
   ApiUnauthorizedResponse,
@@ -87,17 +88,26 @@ export class ProductsController {
   }
 
   @ApiOperation({ summary: 'Get all products' })
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    description: 'Number of page',
+    example: 1,
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    description: 'Number of items per page',
+    example: 5,
+  })
   @ApiResponse({
     status: 200,
     description: 'The products has been successfully retrieved.',
     type: ProductsDto,
   })
   @Get()
-  findAll(@Query('page') page?: number, @Query('limit') limit?: number) {
-    const pageNum = page ? Number(page) : 1;
-    const limitNum = limit ? Number(limit) : 5;
-
-    return this.productsService.findAll(pageNum, limitNum);
+  findAll(@Query('page') page: number = 1, @Query('limit') limit: number = 5) {
+    return this.productsService.findAll(page, limit);
   }
 
   @ApiOperation({ summary: 'Get product by ID' })
