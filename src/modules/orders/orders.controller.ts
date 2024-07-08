@@ -75,12 +75,19 @@ export class OrdersController {
     return this.ordersService.getOrder(id);
   }
 
+  @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  @ApiOperation({ summary: 'Delete order' })
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @ApiResponse({
     status: 200,
-    description:
-      'The order with id: 4d2de65f-0f9f-48c2-ae9b-20537e175e12 has been successfully deleted.',
+    description: 'Delete an order.',
+    schema: {
+      type: 'string',
+      example:
+        'The order with id: 4d2de65f-0f9f-48c2-ae9b-20537e175e12 has been successfully deleted.',
+    },
   })
   @Delete(':id')
   remove(@Param('id', ParseUUIDPipe) id: string) {

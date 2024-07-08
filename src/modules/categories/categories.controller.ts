@@ -127,10 +127,10 @@ export class CategoriesController {
 
   @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
   @ApiForbiddenResponse({ description: 'Forbidden.' })
-  @ApiOperation({ summary: 'Delete categories' })
+  @ApiOperation({ summary: 'Delete category' })
   @ApiResponse({
     status: 200,
-    description: 'The category: Ropa de niño has been successfully deleted.',
+    description: 'Delete a category.',
     schema: {
       type: 'string',
       example: {
