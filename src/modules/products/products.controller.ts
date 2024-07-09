@@ -18,15 +18,11 @@ import {
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { AuthGuard } from '../auth/guards/AuthGuard';
-import productsData from '../../products.json';
-// import { Product } from './entities/products.entity';
-// import { CloudinaryService } from 'src/common/cloudinary.service';
-import { CloudinaryService } from '../../common/cloudinary.service'; //! Cambiado para pruebas.
+import { productsMock } from '../seeds/products/products-mock';
+import { CloudinaryService } from '../../common/cloudinary.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-// import { FileValidatorPipe } from 'src/pipes/fileValidator.pipe';
-import { FileValidatorPipe } from '../../pipes/fileValidator.pipe'; //! Cambiado para pruebas.
-// import { Roles } from 'src/decorators/roles.decorator';
-import { Roles } from '../../decorators/roles.decorator'; //! Cambiado para pruebas.
+import { FileValidatorPipe } from '../../pipes/fileValidator.pipe';
+import { Roles } from '../../decorators/roles.decorator';
 import { Role } from '../auth/roles.enum';
 import { RolesGuard } from '../users/guards/roles.guard';
 import {
@@ -68,7 +64,7 @@ export class ProductsController {
   @UseGuards(AuthGuard, RolesGuard)
   @Post('seeder')
   seedProducts() {
-    return this.productsService.addProducts(productsData);
+    return this.productsService.addProducts(productsMock);
   }
 
   @ApiUnauthorizedResponse({ description: 'Unauthorized.' })

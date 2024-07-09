@@ -10,6 +10,7 @@ import { OrdersModule } from './modules/orders/orders.module';
 import { OrdersDetailsModule } from './modules/orders-details/orders-details.module';
 import { FilesModule } from './modules/files/files.module';
 import { JwtModule } from '@nestjs/jwt';
+import { SeedsModule } from './modules/seeds/seeds.module';
 
 @Module({
   imports: [
@@ -46,6 +47,8 @@ import { JwtModule } from '@nestjs/jwt';
       }),
       global: true,
     }),
+
+    SeedsModule,
   ],
   controllers: [],
   providers: [],

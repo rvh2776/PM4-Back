@@ -24,7 +24,6 @@ export class CategoriesService {
   }
 
   async getCategories(): Promise<Category[]> {
-    // return await this.categoriesRepository.find({ relations: ['products'] });
     return await this.categoriesRepository.find();
   }
 

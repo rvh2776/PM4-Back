@@ -5,16 +5,29 @@ import { Repository } from 'typeorm';
 import { CategoriesService } from '../categories/categories.service';
 import { UpdateProductDto } from './dtos/UpdateProductDto';
 import { ProductsDto } from './dtos/productsDto';
+import { OrdersDetail } from '../orders-details/entities/orders-detail.entity';
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product) private productsRepository: Repository<Product>,
+    @InjectRepository(OrdersDetail)
+    private OrdersDetailRepository: Repository<OrdersDetail>,
     private categoriesService: CategoriesService,
   ) {}
 
-  async addProducts(products: any[]): Promise<void> {
+  async addProducts(products: any[]): Promise<void | string> {
     const categories = await this.categoriesService.getCategories();
+
+    const ordenDetail = await this.OrdersDetailRepository.find({
+      relations: ['products'],
+    });
+
+    if (ordenDetail.length > 0) {
+      throw new NotFoundException(
+        `No se puede recargar el set de productos, porque hay ordenes cargadas: ${ordenDetail.length}`,
+      );
+    }
 
     for (const product of products) {
       const category = categories.find((cat) => cat.name === product.category);
@@ -28,6 +41,10 @@ export class ProductsService {
             category: category,
           });
           await this.productsRepository.save(newProduct);
+        } else if (existingProduct.stock < product.stock) {
+          existingProduct.stock = product.stock;
+          existingProduct.category = category;
+          await this.productsRepository.save(existingProduct);
         }
       }
     }

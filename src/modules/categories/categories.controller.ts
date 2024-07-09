@@ -12,7 +12,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
-import productsData from '../../products.json';
+import { productsMock } from '../seeds/products/products-mock';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { AuthGuard } from '../auth/guards/AuthGuard';
 import {
@@ -26,7 +26,6 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { createCategoryApi } from './dto/createCategoryApi.dto';
-// import { Roles } from 'src/decorators/roles.decorator';
 import { Roles } from '../../decorators/roles.decorator';
 import { Role } from '../auth/roles.enum';
 import { RolesGuard } from '../users/guards/roles.guard';
@@ -51,7 +50,7 @@ export class CategoriesController {
   @UseGuards(AuthGuard, RolesGuard)
   @Post('seeder')
   seedCategories() {
-    const categories = productsData.map((product) => ({
+    const categories = productsMock.map((product) => ({
       name: product.category,
     }));
     // Remuevo duplicados

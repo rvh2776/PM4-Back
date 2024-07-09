@@ -17,7 +17,7 @@ describe('AppController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .post('/auth/signin')
-      .send({ email: 'test@test.com', password: 'Testing1#' });
+      .send({ email: 'example@test.com', password: 'Password123!' });
 
     jwtToken = response.body.token;
   });
@@ -37,7 +37,7 @@ describe('AppController (e2e)', () => {
 
   it('Get /users/ retorna un usuario por id y status code ok', async () => {
     //? Cuidado: existentUserId debe ser un id valido de usuario en la base de datos.
-    const existentUserId = '87cecae9-fb7c-4046-a878-1aabcdb83f29';
+    const existentUserId = '301a99f7-4cc9-45c1-95e7-33f094896fd1';
 
     const req = await request(app.getHttpServer())
       .get(`/users/${existentUserId}`)

@@ -20,5 +20,6 @@
     "types": ["multer", "jest"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "allowJs": true,
   }
 }

@@ -5,6 +5,8 @@ import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { auth } from 'express-openid-connect';
 import { config as auth0Config } from './config/auth0.config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { CategoriesSeed } from './modules/seeds/categories/categories.seed';
+import { ProductsSeed } from './modules/seeds/products/products.seed';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -31,10 +33,10 @@ async function bootstrap() {
 
   //* Integrar Swagger, para documentar la API.
   const swaggerConfig = new DocumentBuilder()
-    .setTitle(`E-Commerce: PM4-rvh2776`)
+    .setTitle(`API E-Commerce`)
     .setDescription(
       `<hr <font color=#2E86C1>
-      <h4><font color=#2E86C1>Bienvenido a la documentación oficial de la <b>API: E-Commerce: <a target='blank' href="https://github.com/rvh2776/PM4-Back">PM4-rvh2776</a></b>.</h4>
+      <h4><font color=#2E86C1>Bienvenido a la documentación oficial de la <b>API: E-Commerce: <a target='blank' href="https://github.com/pi-rym/PM4-rvh2776">PM4-rvh2776</a></b>.</h4>
       <p><font color=#2E86C1>Esta API está construida con <b>NestJS</b> y utiliza <b>Swagger</b> para fines de documentación.</p>
       <p><font color=#2E86C1>La API se desarrolla como parte del Módulo <b>M4</b> de la especialidad: <b>Backend</b> en la carrera Fullstack Developer de <a target='blank' href="https://www.soyhenry.com/"><b>Soy Henry</b></a>.</p>
       <p><font color=#2E86C1>Aquí encontrará toda la información necesaria para interactuar con nuestros endpoints.</p>
@@ -48,6 +50,16 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
+
+  // Inserto: categorias y productos.
+
+  const categoriesSeed = app.get(CategoriesSeed);
+  await categoriesSeed.seed();
+  console.log('La inserción de categorías ha terminado.');
+
+  const productsSeed = app.get(ProductsSeed);
+  await productsSeed.seed();
+  console.log('La inserción de productos ha terminado.');
 
   await app.listen(3000);
 }
