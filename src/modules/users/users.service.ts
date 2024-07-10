@@ -70,6 +70,27 @@ export class UsersService {
     return updatedUser.id;
   }
 
+  async updateUserRole(id: string) {
+    const user = await this.usersRepository.findOneBy({ id });
+
+    if (!user) {
+      throw new NotFoundException(`El usuario con id: ${id} no existe`);
+    }
+
+    if (user.isAdmin) {
+      user.isAdmin = false;
+    } else {
+      user.isAdmin = true;
+    }
+    // user.isAdmin = !user.isAdmin;
+
+    await this.usersRepository.save(user);
+    return {
+      user: user.name,
+      isAdmin: user.isAdmin,
+    };
+  }
+
   async deleteUser(id: string) {
     const userDel = await this.usersRepository.findOne({
       where: { id },

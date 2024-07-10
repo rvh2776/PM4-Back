@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseUUIDPipe,
+  Patch,
   Put,
   Req,
   UseGuards,
@@ -86,6 +87,29 @@ export class UsersController {
     @Body() userUpdate: UpdateUserDto,
   ) {
     return this.usersService.updateUser(id, userUpdate);
+  }
+
+  @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
+  @ApiOperation({ summary: 'Change user role' })
+  @ApiResponse({
+    status: 200,
+    description: 'The user has been successfully changed.',
+    schema: {
+      type: 'string',
+      example: {
+        user: 'Jose Pedroza',
+        isAdmin: true,
+      },
+    },
+  })
+  @ApiBearerAuth()
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RolesGuard)
+  @Patch('role/:id')
+  @UsePipes(new ValidationPipe({ transform: true }))
+  updateUserRole(@Param('id', ParseUUIDPipe) id: string) {
+    return this.usersService.updateUserRole(id);
   }
 
   @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
